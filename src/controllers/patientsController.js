@@ -1,0 +1,70 @@
+const { patients, psycho, services } = require("../models/index");
+
+const patientsController = {
+  listPatients: async (req, res) => {
+    try {
+      const listPatients = await patients.findAll();
+      res.status(200).json(listPatients);
+    } catch (error) {
+      res.status(500).json("Código de erro interno.");
+    }
+  },
+
+  listbyId: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const findbyId = await patients.findByPk(id);
+      if (findbyId) {
+        return res.status(200).json(findbyId);
+      } else {
+        res.status(404).json("Id não encontrado.");
+      }
+    } catch (error) {
+      res.status(500).json("Código de erro interno.");
+    }
+  },
+
+  createPatients: async (req, res) => {
+    try {
+      const { name_patient, born, email } = req.body;
+      const newPatient = await patients.create({ name_patient, born, email });
+
+      res.status(201).json(newPatient);
+      //erro 400
+    } catch (error) {
+      res.status(500).json("Código de erro interno.");
+    }
+  },
+
+  update: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const { name_patient, born, email } = req.body;
+
+      await patients.update({ name_patient, born, email }, { where: { id } });
+
+      return res.status(200).json("Patient att!");
+      //erro 400
+    } catch (error) {
+      res.status(500).json("Código de erro interno.");
+    }
+  },
+
+  destroy: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const patientId = await patients.destroy({ where: { id } });
+      if (!patientId) {
+        return res.status(404).json("Id não encontrado.");
+      }
+      res.sendStatus(204);      
+    } catch (error) {
+      res.status(500).json("Código de erro interno.");
+    }
+  },
+};
+
+module.exports = patientsController;
