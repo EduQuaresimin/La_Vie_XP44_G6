@@ -38,7 +38,7 @@ const servicesController = {
         note,
       });
       //Verificar token JWT
-      //erro 400
+      //Verificar erro 400
       return res.status(201).json(newService);
     } catch (error) {
       res.status(500).json("Código de erro interno.");
