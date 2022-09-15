@@ -17,7 +17,7 @@ const psychoController = {
   },
 
   listbyId: async (req, res) => {
-    // sem senha aqui
+    //Sem senha aqui
 
     const { id } = req.params;
 
